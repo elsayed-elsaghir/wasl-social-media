@@ -5,10 +5,17 @@ import { AuthService } from '../../../../core/auth/services/auth.service.js';
 import { ɵInternalFormsSharedModule } from '@angular/forms';
 import { SearchService } from '../../../../core/auth/services/search.service.js';
 import { TranslatePipe } from '@ngx-translate/core';
+import { BtnLangComponent } from '../../../../shared/ui/btn-lang/btn-lang.component';
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterLink, RouterLinkActive, ɵInternalFormsSharedModule, TranslatePipe],
+  imports: [
+    RouterLink,
+    RouterLinkActive,
+    ɵInternalFormsSharedModule,
+    TranslatePipe,
+    BtnLangComponent,
+  ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
 })

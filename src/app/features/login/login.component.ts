@@ -12,10 +12,11 @@ import { Subscription } from 'rxjs';
 import type { HttpErrorResponse } from '@angular/common/http';
 import { NgClass } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
+import { BtnLangComponent } from '../../shared/ui/btn-lang/btn-lang.component';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, NgClass, RouterLink, TranslatePipe],
+  imports: [ReactiveFormsModule, NgClass, RouterLink, TranslatePipe, BtnLangComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })

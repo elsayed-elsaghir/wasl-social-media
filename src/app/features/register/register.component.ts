@@ -12,10 +12,11 @@ import type { HttpErrorResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { Router, RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
+import { BtnLangComponent } from '../../shared/ui/btn-lang/btn-lang.component';
 
 @Component({
   selector: 'app-register',
-  imports: [ReactiveFormsModule, NgClass, RouterLink, TranslatePipe],
+  imports: [ReactiveFormsModule, NgClass, RouterLink, TranslatePipe, BtnLangComponent],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
 })

@@ -1,0 +1,11 @@
+<button
+  type="button"
+  (click)="switchLanguage()"
+  class="btn-lang ms-4 flex items-center gap-2 px-3 py-1.5 rounded-lg border border-transparent text-sm font-medium text-mainColor bg-secondColor hover:bg-mainLight hover:text-white focus:outline-none transition-all duration-200"
+  aria-label="{{ currentLang() === 'ar' ? 'Switch to English' : 'Switch to Arabic' }}"
+>
+  <i class="fa-solid fa-globe text-mainColor hover:text-white transition-colors duration-200"></i>
+  <span class="text-mainColor hover:text-white font-semibold transition-colors duration-200">
+    {{ currentLang() === 'ar' ? 'en' : 'ع' }}
+  </span>
+</button>

@@ -1,7 +1,7 @@
 import { Component, inject, signal, type OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NgxSpinnerComponent } from 'ngx-spinner';
-import { TranslateService } from './core/services/translate.service.js';
+import { MyTranslateService } from './core/services/my-translate.service.js';
 
 @Component({
   selector: 'app-root',
@@ -11,8 +11,8 @@ import { TranslateService } from './core/services/translate.service.js';
 })
 export class App {
   protected readonly title = signal('Social');
-  private readonly translateService = inject(TranslateService);
+  private readonly myTranslateService = inject(MyTranslateService);
   constructor() {
-    this.translateService.changeDirection();
+    this.myTranslateService.changeDirection();
   }
 }
