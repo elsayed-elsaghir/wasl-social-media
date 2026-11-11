@@ -1,0 +1,153 @@
+{
+  "login": {
+    "title": "ابدأ رحلتك على وصل",
+    "description": "مكان يمكنك فيه التواصل بثقة.",
+    "email": "البريد الإلكتروني",
+    "emailRequired": "البريد الإلكتروني مطلوب",
+    "invalidEmail": "يرجى إدخال بريد إلكتروني صحيح.",
+    "password": "كلمة المرور",
+    "passwordRequired": "يرجى إدخال كلمة المرور",
+    "passwordPattern": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل، وأن تحتوي على حرف كبير وحرف صغير ورقم ورمز خاص.",
+    "submit": "تسجيل الدخول",
+    "createAccount": "إنشاء حساب جديد"
+  },
+  "register": {
+    "title": "ابدأ رحلتك على وصل",
+    "description": "مكان يمكنك من خلاله التواصل مع الآخرين بثقة.",
+    "fullName": "الاسم بالكامل",
+    "fullNameRequired": "الاسم مطلوب",
+    "fullNameMinLength": "يجب أن يتكون الاسم من 3 أحرف على الأقل.",
+    "username": "اسم المستخدم (اختياري)",
+    "email": "البريد الإلكتروني",
+    "emailRequired": "البريد الإلكتروني مطلوب",
+    "invalidEmail": "يرجى إدخال بريد إلكتروني صحيح.",
+    "gender": "اختر النوع",
+    "male": "ذكر",
+    "female": "أنثى",
+    "genderRequired": "النوع مطلوب",
+    "dateOfBirth": "تاريخ الميلاد",
+    "dateOfBirthRequired": "تاريخ الميلاد مطلوب",
+    "minimumAge": "يجب أن يكون عمرك 12 عامًا على الأقل لإنشاء حساب.",
+    "password": "كلمة المرور",
+    "passwordRequired": "كلمة المرور مطلوبة.",
+    "passwordPattern": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل، وأن تحتوي على حرف كبير وحرف صغير ورقم ورمز خاص.",
+    "confirmPassword": "تأكيد كلمة المرور",
+    "confirmPasswordRequired": "يرجى تأكيد كلمة المرور.",
+    "passwordMismatch": "كلمتا المرور غير متطابقتين.",
+    "submit": "إنشاء حساب جديد",
+    "alreadyHaveAccount": "لدي حساب بالفعل"
+  },
+  "navbar": {
+    "title": "منشورات وصل",
+    "openUserMenu": "فتح قائمة المستخدم",
+    "userName": "اسم المستخدم",
+    "settings": "الإعدادات",
+    "logout": "تسجيل الخروج",
+    "openMainMenu": "فتح القائمة الرئيسية",
+    "feed": "آخر المنشورات",
+    "profile": "الملف الشخصي",
+    "notification": "الإشعارات",
+    "search": "ابحث في وصل"
+  },
+  "posts": {
+    "privacy": {
+      "public": "عام",
+      "followers": "المتابعون",
+      "onlyMe": "أنا فقط"
+    },
+    "create": {
+      "placeholder": "بماذا تفكر؟",
+      "ariaLabel": "إنشاء منشور جديد",
+      "photoVideo": "صورة/فيديو",
+      "submit": "نشر"
+    },
+    "actions": {
+      "edit": "تعديل المنشور",
+      "delete": "حذف المنشور",
+      "save": "حفظ المنشور",
+      "viewDetails": "عرض التفاصيل",
+      "like": "إعجاب",
+      "unlike": "إلغاء الإعجاب",
+      "comment": "تعليق",
+      "share": "مشاركة"
+    },
+    "counts": {
+      "likes": "{{count}} إعجاب",
+      "shares": "{{count}} مشاركة",
+      "comments": "{{count}} تعليق"
+    },
+    "edit": {
+      "title": "تعديل المنشور",
+      "placeholder": "بماذا تفكر؟",
+      "ariaLabel": "تعديل محتوى المنشور",
+      "changePhoto": "تغيير الصورة",
+      "newImage": "صورة جديدة",
+      "update": "تحديث المنشور",
+      "imageAlt": "معاينة صورة المنشور"
+    },
+    "image": {
+      "fullSizeAlt": "الصورة بالحجم الكامل"
+    },
+    "loading": "جارٍ تحميل المزيد من المنشورات...",
+    "end": "لقد وصلت إلى نهاية المنشورات."
+  },
+  "timeAgo": {
+    "justNow": "الآن",
+    "minutes": "منذ {{count}} دقيقة",
+    "hours": "منذ {{count}} س",
+    "days": "منذ {{count}} ي",
+    "weeks": "منذ {{count}} أ",
+    "months": "منذ {{count}} ش",
+    "years": "منذ {{count}} سنة"
+  },
+
+  "comments": {
+    "title": "التعليقات",
+    "actions": {
+      "like": "إعجاب ({{count}})",
+      "reply": "رد ({{count}})"
+    },
+    "create": {
+      "placeholder": "اكتب تعليقًا باسم ...",
+      "photoVideo": "صورة/فيديو"
+    },
+    "image": {
+      "fullSizeAlt": "الصورة بالحجم الكامل"
+    }
+  },
+  "postDetails": {
+    "back": "رجوع",
+    "privacy": {
+      "public": "عام",
+      "followers": "المتابعون",
+      "onlyMe": "أنا فقط"
+    },
+    "actions": {
+      "edit": "تعديل المنشور",
+      "delete": "حذف المنشور",
+      "save": "حفظ المنشور",
+      "like": "إعجاب",
+      "unlike": "إلغاء الإعجاب",
+      "comment": "تعليق",
+      "share": "مشاركة"
+    },
+    "counts": {
+      "likes": "{{count}} إعجاب",
+      "shares": "{{count}} مشاركة",
+      "comments": "{{count}} تعليق"
+    }
+  },
+  "sidebar": {
+    "ariaLabel": "القائمة الجانبية",
+    "feed": "آخر المنشورات",
+    "myPosts": "منشوراتي",
+    "community": "المجتمع",
+    "saved": "المحفوظات",
+    "suggestedFriends": "الأصدقاء المقترحون",
+    "searchFriends": "ابحث عن أصدقاء...",
+    "viewMore": "عرض المزيد",
+    "follow": "متابعة",
+    "followers": "متابعون",
+    "mutual": "مشترك"
+  }
+}

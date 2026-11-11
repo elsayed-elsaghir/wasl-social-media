@@ -1,0 +1,130 @@
+<section class="flex bg-white justify-center items-center min-h-screen">
+  <div class="container px-6 py-10 max-w-2xl">
+    <div class="mb-3 gap-1 flex items-center">
+      <img class="w-8 h-8" src="/images/mainImage.png" alt="" />
+      <span class="font-bold text-gray-700">Wasl</span>
+    </div>
+
+    <h1 class="text-2xl font-bold text-mainText">
+      {{ 'login.title' | translate }}
+    </h1>
+
+    <p>{{ 'login.description' | translate }}</p>
+
+    <form (ngSubmit)="submitForm()" [formGroup]="loginForm" class="grid gap-y-5 mt-6">
+      <!-- Email -->
+      <div>
+        <div class="relative">
+          <input
+            formControlName="email"
+            type="email"
+            id="email"
+            [ngClass]="{
+              'border-[#d31130]! focus:border-[#d31130]!':
+                loginForm.get('email')?.invalid && loginForm.get('email')?.touched,
+            }"
+            class="block px-2 py-4 w-full text-heading bg-transparent rounded-base border border-gray-300 hover:border-gray-400 duration-100 appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
+            placeholder=" "
+          />
+
+          <label
+            for="email"
+            [ngClass]="{
+              'text-[#d31130]!': loginForm.get('email')?.invalid && loginForm.get('email')?.touched,
+            }"
+            class="absolute font-medium text-body duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-left bg-neutral-primary px-2 peer-focus:px-2 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto inset-s-1"
+          >
+            {{ 'login.email' | translate }}
+          </label>
+        </div>
+
+        @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
+          <div class="text-[#d31130] p-1">
+            @if (loginForm.get('email')?.hasError('required')) {
+              <p class="mb-1 text-sm">
+                {{ 'login.emailRequired' | translate }}
+              </p>
+            } @else if (loginForm.get('email')?.hasError('email')) {
+              <p class="text-sm">
+                {{ 'login.invalidEmail' | translate }}
+              </p>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Password -->
+      <div>
+        <div class="relative">
+          <input
+            formControlName="password"
+            type="password"
+            id="password"
+            [ngClass]="{
+              'border-[#d31130]! focus:border-[#d31130]!':
+                loginForm.get('password')?.invalid && loginForm.get('password')?.touched,
+            }"
+            class="block px-2 py-4 w-full text-heading bg-transparent rounded-base border border-gray-300 hover:border-gray-400 duration-100 appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
+            placeholder=" "
+          />
+
+          <label
+            for="password"
+            [ngClass]="{
+              'text-[#d31130]!':
+                loginForm.get('password')?.invalid && loginForm.get('password')?.touched,
+            }"
+            class="absolute font-medium text-body duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-left bg-neutral-primary px-2 peer-focus:px-2 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto inset-s-1"
+          >
+            {{ 'login.password' | translate }}
+          </label>
+        </div>
+
+        @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
+          <div class="text-[#d31130] p-1">
+            @if (loginForm.get('password')?.hasError('required')) {
+              <p class="mb-1 text-sm">
+                {{ 'login.passwordRequired' | translate }}
+              </p>
+            } @else if (loginForm.get('password')?.hasError('pattern')) {
+              <p class="text-sm">
+                {{ 'login.passwordPattern' | translate }}
+              </p>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Buttons -->
+      <div class="grid gap-3">
+        <div>
+          @if (msgError()) {
+            <p class="text-center mb-2 text-[#d31130]">
+              {{ msgError() }}
+            </p>
+          }
+
+          <button
+            type="submit"
+            [disabled]="loading()"
+            class="bg-mainLight w-full hover:bg-mainColor duration-300 disabled:cursor-not-allowed shadow px-2 py-2.5 rounded-full text-white cursor-pointer"
+          >
+            {{ 'login.submit' | translate }}
+
+            @if (loading()) {
+              <i class="fas fa-spinner fa-spin"></i>
+            }
+          </button>
+        </div>
+
+        <button
+          routerLink="/register"
+          type="button"
+          class="bg-gray-100 hover:bg-gray-200 duration-300 shadow px-2 font-medium py-2.5 rounded-full text-[#28292b] cursor-pointer"
+        >
+          {{ 'login.createAccount' | translate }}
+        </button>
+      </div>
+    </form>
+  </div>
+</section>

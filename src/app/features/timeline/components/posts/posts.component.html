@@ -1,0 +1,479 @@
+<section>
+  <!-- Create Posts -->
+  <form
+    (submit)="submitForm($event)"
+    class="w-full bg-white rounded-[16px] shadow-sm border border-slate-200 p-4 font-sans flex flex-col"
+  >
+    <div class="flex items-center gap-3 mb-3">
+      <img
+        [src]="user().photo"
+        [alt]="user().name"
+        class="w-10 h-10 rounded-full object-cover shrink-0 bg-slate-100 border border-slate-50"
+      />
+
+      <div>
+        <span class="text-[15px] font-bold text-slate-900 leading-tight">
+          {{ user().name }}
+        </span>
+
+        <div
+          class="flex p-1 w-fit items-center bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body"
+        >
+          <i class="fa-solid fa-earth-americas text-[11px] text-slate-600"></i>
+
+          <select
+            [formControl]="privacy"
+            class="border-none bg-transparent cursor-pointer ring-0 py-0 px-2 text-xs"
+          >
+            <option value="public">{{ 'posts.privacy.public' | translate }}</option>
+            <option value="following">{{ 'posts.privacy.followers' | translate }}</option>
+            <option value="only_me">{{ 'posts.privacy.onlyMe' | translate }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <textarea
+        [formControl]="content"
+        class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-[15px] text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-blue-50 focus:border-blue-300 transition-all resize-y min-h-30"
+        [placeholder]="'posts.create.placeholder' | translate"
+        [attr.aria-label]="'posts.create.ariaLabel' | translate"
+      ></textarea>
+    </div>
+
+    <hr class="border-t border-slate-800 mb-4" />
+
+    <div class="flex items-center justify-between">
+      <input (change)="fileChange($event)" type="file" id="file" class="hidden" />
+
+      <label
+        for="file"
+        class="flex cursor-pointer items-center gap-2 text-slate-600 hover:bg-slate-50 px-2 py-1.5 rounded-lg transition-colors group"
+      >
+        <i
+          class="fa-regular fa-image text-[#22c55e] text-[1.1rem] group-hover:scale-110 transition-transform"
+        ></i>
+        <span class="text-[14px] font-semibold text-slate-600">
+          {{ 'posts.create.photoVideo' | translate }}
+        </span>
+      </label>
+
+      <button
+        class="cursor-pointer bg-blue-500 text-white px-5 py-2 rounded-lg font-bold text-[14px] flex items-center gap-2 focus:ring-4 focus:ring-blue-200 outline-none"
+      >
+        {{ 'posts.create.submit' | translate }}
+        <i class="fa-regular fa-paper-plane text-sm"></i>
+      </button>
+    </div>
+
+    @if (imgSrc()) {
+      <div class="m-4 relative">
+        <img class="h-50 w-full object-cover rounded" [src]="imgSrc()" alt="" />
+
+        <i
+          (click)="removeImg()"
+          class="fa-regular fa-circle-xmark text-red-500 absolute top-2 right-2 text-xl cursor-pointer"
+        ></i>
+      </div>
+    }
+  </form>
+
+  <!-- All Posts -->
+  <div
+    infiniteScroll
+    [infiniteScrollDistance]="2"
+    [infiniteScrollThrottle]="150"
+    [infiniteScrollDisabled]="loading || !hasMore"
+    (scrolled)="loadMorePosts()"
+  >
+    @for (post of allPosts() | search: searchService.searchValue(); track post.id) {
+      <div class="bg-white rounded-[16px] my-3 shadow-sm border border-slate-200 p-4 font-sans">
+        <!-- User Details -->
+        <div class="flex items-start justify-between mb-3">
+          <div class="flex items-center gap-3">
+            <img
+              [src]="post.user.photo"
+              [alt]="post.user.name"
+              class="size-10 rounded-full object-cover shrink-0 bg-slate-100 border border-slate-50"
+            />
+
+            <div>
+              <span
+                class="text-[15px] font-bold text-slate-900 leading-tight hover:underline cursor-pointer"
+              >
+                {{ post.user.name }}
+              </span>
+
+              <div class="flex items-center text-[13px] text-slate-500 mt-0.5 gap-1">
+                <span class="hover:underline cursor-pointer"> @{{ post.user.username }} </span>
+
+                <span>&middot;</span>
+
+                <span class="hover:underline cursor-pointer">
+                  {{ postTimes()[post.id] }}
+                </span>
+
+                <span>&middot;</span>
+
+                <div
+                  [class.p-1]="post.user._id === user()._id"
+                  class="p-0 w-fit relative items-center flex bg-neutral-secondary-medium text-heading text-base rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body"
+                >
+                  <select
+                    [formControl]="privacy"
+                    (change)="updatePost(post)"
+                    [class.pr-5]="post.user._id === user()._id"
+                    [class.hidden]="post.user._id !== user()._id"
+                    class="border-none bg-transparent z-1 relative cursor-pointer ring-0 py-0 px-2 text-sm"
+                  >
+                    <option [selected]="post.privacy === 'public'" value="public">
+                      {{ 'posts.privacy.public' | translate }}
+                    </option>
+
+                    <option [selected]="post.privacy === 'following'" value="following">
+                      {{ 'posts.privacy.followers' | translate }}
+                    </option>
+
+                    <option [selected]="post.privacy === 'only_me'" value="only_me">
+                      {{ 'posts.privacy.onlyMe' | translate }}
+                    </option>
+                  </select>
+
+                  @if (post.user._id === user()._id) {
+                    <i
+                      class="fa-solid fa-angle-down absolute right-1 text-heading cursor-pointer"
+                    ></i>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dropdown -->
+          <div class="relative group">
+            <button
+              id="dropdownMenuIconButton"
+              (click)="toggleDropdown(post._id)"
+              data-dropdown-toggle="dropdownDots"
+              class="text-heading dropdown-toggle cursor-pointer bg-neutral-primary box-border border border-transparent font-medium leading-5 rounded-base text-sm p-2 focus:outline-none"
+              type="button"
+            >
+              <svg
+                class="w-6 h-6"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-width="3"
+                  d="M12 6h.01M12 12h.01M12 18h.01"
+                />
+              </svg>
+            </button>
+
+            @if (openDropdownId() === post._id) {
+              <div
+                id="dropdownDots"
+                class="z-30 absolute bg-neutral-primary-medium border border-default-medium rounded-base shadow-lg w-44"
+              >
+                <ul
+                  class="p-2 text-sm text-body font-medium"
+                  aria-labelledby="dropdownMenuIconButton"
+                >
+                  <li>
+                    @if (post.user._id === user()._id) {
+                      <button
+                        (click)="openEditModal(post)"
+                        class="inline-flex cursor-pointer items-center w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded"
+                      >
+                        {{ 'posts.actions.edit' | translate }}
+                      </button>
+
+                      <button
+                        (click)="deletePost(post.id)"
+                        class="inline-flex text-red-700 items-center w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded"
+                      >
+                        {{ 'posts.actions.delete' | translate }}
+                      </button>
+                    } @else {
+                      <button
+                        class="inline-flex items-center w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded"
+                      >
+                        {{ 'posts.actions.save' | translate }}
+                      </button>
+                    }
+                  </li>
+                </ul>
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Post Content -->
+        <div class="text-[15px] text-slate-900 mb-4">
+          @if (post.body) {
+            <p class="wrap-break-word whitespace-pre-wrap">{{ post.body }}</p>
+          }
+
+          @if (post.image) {
+            <img
+              [src]="post.image"
+              (click)="openImage(post.image)"
+              class="w-full cursor-pointer max-h-90 object-cover rounded shadow mt-2"
+              [alt]="post.body"
+            />
+          }
+
+          @if (selectedImage()) {
+            <div
+              class="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
+              (click)="closeImage()"
+            >
+              <button
+                (click)="closeImage()"
+                class="absolute top-5 right-5 text-white text-3xl cursor-pointer"
+              >
+                &times;
+              </button>
+
+              <img
+                [src]="selectedImage()"
+                class="max-w-full max-h-[90vh] object-contain rounded"
+                [alt]="'posts.image.fullSizeAlt' | translate"
+                (click)="$event.stopPropagation()"
+              />
+            </div>
+          }
+        </div>
+
+        <!-- Likes, Shares, Comments Counts & View Details -->
+        <div class="flex items-center justify-between text-[13px] text-slate-500 mb-3 px-1">
+          <button
+            (click)="openLikesModal(post.id)"
+            type="button"
+            class="flex items-center gap-1.5 cursor-pointer hover:underline"
+          >
+            <div
+              class="w-5 h-5 rounded-full bg-blue-500 text-white flex items-center justify-center text-2xs"
+            >
+              <i class="fa-solid fa-thumbs-up"></i>
+            </div>
+
+            <span>
+              {{ 'posts.counts.likes' | translate: { count: post.likesCount } }}
+            </span>
+          </button>
+
+          <div class="flex items-center gap-3">
+            <span class="cursor-pointer hover:underline">
+              {{ 'posts.counts.shares' | translate: { count: post.sharesCount } }}
+            </span>
+
+            <span class="cursor-pointer hover:underline">
+              {{ 'posts.counts.comments' | translate: { count: post.commentsCount } }}
+            </span>
+
+            <button
+              [routerLink]="['/details', post.id]"
+              class="font-semibold cursor-pointer text-blue-600 hover:underline"
+            >
+              {{ 'posts.actions.viewDetails' | translate }}
+            </button>
+          </div>
+        </div>
+
+        <hr class="border-t border-slate-200 mb-1" />
+
+        <!-- Like, Comment & Share Buttons -->
+        <div class="flex items-center justify-between px-1 py-1">
+          @if (post.isLiked) {
+            <button
+              (click)="toggleLike(post)"
+              class="flex-1 text-blue-600 cursor-pointer flex items-center justify-center gap-2 font-semibold text-[14px] hover:bg-slate-50 py-2 rounded-lg transition-colors"
+            >
+              <i class="fa-solid fa-thumbs-up text-lg text-blue-500"></i>
+              {{ 'posts.actions.unlike' | translate }}
+            </button>
+          } @else {
+            <button
+              (click)="toggleLike(post)"
+              class="flex-1 cursor-pointer flex items-center justify-center gap-2 text-slate-600 font-semibold text-[14px] hover:bg-slate-50 py-2 rounded-lg transition-colors"
+            >
+              <i class="fa-regular fa-thumbs-up text-lg"></i>
+              {{ 'posts.actions.like' | translate }}
+            </button>
+          }
+
+          <button
+            #commentBtn
+            class="flex-1 flex cursor-pointer items-center justify-center gap-2 text-slate-600 font-semibold text-[14px] hover:bg-slate-50 py-2 rounded-lg transition-colors"
+          >
+            <i class="fa-regular fa-message text-lg"></i>
+            {{ 'posts.actions.comment' | translate }}
+          </button>
+
+          <button
+            class="flex-1 flex cursor-pointer items-center justify-center gap-2 text-slate-600 font-semibold text-[14px] hover:bg-slate-50 py-2 rounded-lg transition-colors"
+          >
+            <i class="fa-solid fa-share text-lg"></i>
+            {{ 'posts.actions.share' | translate }}
+          </button>
+        </div>
+
+        <hr class="border-t border-slate-200 mt-1 mb-4" />
+
+        <!-- Comments -->
+        @defer (on interaction(commentBtn)) {
+          <app-comments [postId]="post.id" (commentCreated)="incrementCommentsCount(post.id)" />
+        }
+      </div>
+    }
+
+    <!-- View Likes Modal -->
+    @if (selectedLikesPostId(); as postId) {
+      <app-post-likes (closed)="closeLikesModal()" [postId]="postId" />
+    }
+
+    <!-- Edit Post Modal -->
+    @if (selectedPost()) {
+      <div
+        class="fixed inset-0 z-100 flex items-center justify-center bg-black/50 backdrop-blur-[2px] p-4"
+        (click)="closeEditModal()"
+      >
+        <form
+          (submit)="submitEditPost($event)"
+          (click)="$event.stopPropagation()"
+          class="w-full max-w-xl bg-white rounded-[16px] shadow-xl border border-slate-200 p-4 font-sans flex flex-col"
+        >
+          <!-- Header -->
+          <div class="flex items-center justify-between mb-5">
+            <h2 class="text-xl font-bold text-slate-900">
+              {{ 'posts.edit.title' | translate }}
+            </h2>
+
+            <button
+              type="button"
+              (click)="closeEditModal()"
+              class="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-600 transition"
+            >
+              <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+          </div>
+
+          <!-- User Information -->
+          <div class="flex items-center gap-3 mb-4">
+            <img
+              [src]="user().photo"
+              [alt]="user().name"
+              class="w-10 h-10 rounded-full object-cover shrink-0 bg-slate-100 border border-slate-50"
+            />
+
+            <div>
+              <span class="text-[15px] font-bold text-slate-900">
+                {{ user().name }}
+              </span>
+
+              <!-- Privacy -->
+              <div
+                class="flex p-1 w-fit items-center bg-slate-100 border border-slate-200 rounded-md mt-1"
+              >
+                <i class="fa-solid fa-earth-americas text-[11px] text-slate-600"></i>
+
+                <select
+                  [formControl]="editPrivacy"
+                  class="border-none bg-transparent cursor-pointer outline-none ring-0 py-0 px-2 text-xs"
+                >
+                  <option value="public">{{ 'posts.privacy.public' | translate }}</option>
+                  <option value="following">{{ 'posts.privacy.followers' | translate }}</option>
+                  <option value="only_me">{{ 'posts.privacy.onlyMe' | translate }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Post Content -->
+          <div class="mb-4">
+            <textarea
+              [formControl]="editContent"
+              class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-[15px] text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-blue-50 focus:border-blue-300 transition-all resize-y min-h-30"
+              [placeholder]="'posts.edit.placeholder' | translate"
+              [attr.aria-label]="'posts.edit.ariaLabel' | translate"
+            ></textarea>
+          </div>
+
+          <hr class="border-t border-slate-200 mb-4" />
+
+          <!-- Image Upload -->
+          <div class="flex items-center justify-between">
+            <input
+              (change)="editFileChange($event)"
+              type="file"
+              id="editPostFile"
+              accept="image/*"
+              class="hidden"
+            />
+
+            <label
+              for="editPostFile"
+              class="flex mb-3 cursor-pointer items-center gap-2 text-slate-600 hover:bg-slate-50 px-2 py-1.5 rounded-lg transition-colors group"
+            >
+              <i
+                class="fa-regular fa-image text-[#22c55e] text-[1.1rem] group-hover:scale-110 transition-transform"
+              ></i>
+
+              <span class="text-[14px] font-semibold">
+                {{ 'posts.edit.changePhoto' | translate }}
+              </span>
+            </label>
+          </div>
+
+          <!-- Image Preview -->
+          @if (editImgSrc()) {
+            <div class="m-4 relative">
+              <img
+                class="h-50 w-full object-cover rounded-xl"
+                [src]="editImgSrc()"
+                [alt]="'posts.edit.imageAlt' | translate"
+              />
+
+              @if (editFile()) {
+                <span
+                  class="absolute bottom-2 left-2 bg-black/60 text-white text-xs px-2 py-1 rounded"
+                >
+                  {{ 'posts.edit.newImage' | translate }}
+                </span>
+              }
+            </div>
+          }
+
+          <!-- Update Button -->
+          <button
+            type="submit"
+            class="cursor-pointer bg-blue-500 text-white w-full px-5 py-3 rounded-lg font-bold text-[14px] flex items-center justify-center gap-2 hover:bg-blue-600 transition disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {{ 'posts.edit.update' | translate }}
+            <i class="fa-regular fa-paper-plane text-sm"></i>
+          </button>
+        </form>
+      </div>
+    }
+
+    @if (loading) {
+      <p class="py-4 text-center text-gray-500">
+        {{ 'posts.loading' | translate }}
+      </p>
+    }
+
+    @if (!hasMore && allPosts().length > 0) {
+      <p class="py-4 text-center text-gray-500">
+        {{ 'posts.end' | translate }}
+      </p>
+    }
+  </div>
+</section>

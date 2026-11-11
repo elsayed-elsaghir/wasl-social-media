@@ -1,0 +1,287 @@
+<section class="flex bg-white justify-center items-center min-h-screen">
+  <div class="container px-6 py-10 max-w-2xl">
+    <div class="mb-3 gap-1 flex items-center">
+      <img class="w-8 h-8" src="/images/mainImage.png" alt="" />
+      <span class="font-bold text-gray-700">Wasl</span>
+    </div>
+
+    <h1 class="text-2xl font-bold text-mainText">
+      {{ 'register.title' | translate }}
+    </h1>
+    <p>{{ 'register.description' | translate }}</p>
+
+    <form (ngSubmit)="submitForm()" [formGroup]="registerForm" class="grid gap-y-5 mt-6">
+      <!-- Full Name -->
+      <div>
+        <div class="relative mb-1">
+          <input
+            [ngClass]="{
+              'border-[#d31130]! focus:border-[#d31130]!':
+                registerForm.get('name')?.invalid && registerForm.get('name')?.touched,
+            }"
+            formControlName="name"
+            type="text"
+            id="fullName"
+            class="block px-2 py-4 w-full text-heading bg-transparent rounded-base border border-gray-300 hover:border-gray-400 duration-100 appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
+            placeholder=" "
+          />
+
+          <label
+            [ngClass]="{
+              'text-[#d31130]!':
+                registerForm.get('name')?.invalid && registerForm.get('name')?.touched,
+            }"
+            for="fullName"
+            class="absolute font-medium text-body duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-left bg-neutral-primary px-2 peer-focus:px-2 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto inset-s-1"
+          >
+            {{ 'register.fullName' | translate }}
+          </label>
+        </div>
+
+        @if (registerForm.get('name')?.invalid && registerForm.get('name')?.touched) {
+          <div class="p-1 text-[#d31130]">
+            @if (registerForm.get('name')?.hasError('required')) {
+              <p>{{ 'register.fullNameRequired' | translate }}</p>
+            } @else if (registerForm.get('name')?.hasError('minlength')) {
+              <p>{{ 'register.fullNameMinLength' | translate }}</p>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Username -->
+      <div class="relative">
+        <input
+          formControlName="username"
+          type="text"
+          id="userName"
+          class="block px-2 py-4 w-full text-heading bg-transparent rounded-base border border-gray-300 hover:border-gray-400 duration-100 appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
+          placeholder=" "
+        />
+
+        <label
+          for="userName"
+          class="absolute font-medium text-body duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-left bg-neutral-primary px-2 peer-focus:px-2 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto inset-s-1"
+        >
+          {{ 'register.username' | translate }}
+        </label>
+      </div>
+
+      <!-- Email -->
+      <div>
+        <div class="relative">
+          <input
+            formControlName="email"
+            type="email"
+            id="email"
+            [ngClass]="{
+              'border-[#d31130]! focus:border-[#d31130]!':
+                registerForm.get('email')?.invalid && registerForm.get('email')?.touched,
+            }"
+            class="block px-2 py-4 w-full text-heading bg-transparent rounded-base border border-gray-300 hover:border-gray-400 duration-100 appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
+            placeholder=" "
+          />
+
+          <label
+            for="email"
+            [ngClass]="{
+              'text-[#d31130]!':
+                registerForm.get('email')?.invalid && registerForm.get('email')?.touched,
+            }"
+            class="absolute font-medium text-body duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-left bg-neutral-primary px-2 peer-focus:px-2 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto inset-s-1"
+          >
+            {{ 'register.email' | translate }}
+          </label>
+        </div>
+
+        @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
+          <div class="p-1 text-[#d31130]">
+            @if (registerForm.get('email')?.hasError('required')) {
+              <p>{{ 'register.emailRequired' | translate }}</p>
+            } @else if (registerForm.get('email')?.hasError('email')) {
+              <p>{{ 'register.invalidEmail' | translate }}</p>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Gender -->
+      <div>
+        <div class="relative">
+          <select
+            formControlName="gender"
+            id="gender"
+            [ngClass]="{
+              'border-[#d31130]! focus:border-[#d31130]!':
+                registerForm.get('gender')?.invalid && registerForm.get('gender')?.touched,
+            }"
+            class="block px-2 py-4 w-full text-heading bg-transparent rounded-base border border-gray-300 hover:border-gray-400 duration-100 appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
+          >
+            <option selected disabled value="" hidden>
+              {{ 'register.gender' | translate }}
+            </option>
+            <option value="male">
+              {{ 'register.male' | translate }}
+            </option>
+            <option value="female">
+              {{ 'register.female' | translate }}
+            </option>
+          </select>
+        </div>
+
+        @if (registerForm.get('gender')?.invalid && registerForm.get('gender')?.touched) {
+          <div class="p-1 text-[#d31130]">
+            <p>{{ 'register.genderRequired' | translate }}</p>
+          </div>
+        }
+      </div>
+
+      <!-- Date of Birth -->
+      <div>
+        <div class="relative">
+          <input
+            [ngClass]="{
+              'border-[#d31130]! focus:border-[#d31130]!':
+                registerForm.get('dateOfBirth')?.invalid &&
+                registerForm.get('dateOfBirth')?.touched,
+            }"
+            formControlName="dateOfBirth"
+            type="date"
+            id="date"
+            class="block px-2 py-4 w-full text-heading bg-transparent rounded-base border border-gray-300 hover:border-gray-400 duration-100 appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
+            placeholder=" "
+          />
+
+          <label
+            for="date"
+            [ngClass]="{
+              'text-[#d31130]!':
+                registerForm.get('dateOfBirth')?.invalid &&
+                registerForm.get('dateOfBirth')?.touched,
+            }"
+            class="absolute font-medium text-body duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-left bg-neutral-primary px-2 peer-focus:px-2 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto inset-s-1"
+          >
+            {{ 'register.dateOfBirth' | translate }}
+          </label>
+        </div>
+
+        @if (registerForm.get('dateOfBirth')?.invalid && registerForm.get('dateOfBirth')?.touched) {
+          <div class="p-1 text-[#d31130]">
+            @if (registerForm.get('dateOfBirth')?.hasError('required')) {
+              <p>{{ 'register.dateOfBirthRequired' | translate }}</p>
+            } @else if (registerForm.get('dateOfBirth')?.hasError('minimumAge')) {
+              <p>{{ 'register.minimumAge' | translate }}</p>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Password -->
+      <div>
+        <div class="relative">
+          <input
+            formControlName="password"
+            type="password"
+            id="password"
+            [ngClass]="{
+              'border-[#d31130]! focus:border-[#d31130]!':
+                registerForm.get('password')?.invalid && registerForm.get('password')?.touched,
+            }"
+            class="block px-2 py-4 w-full text-heading bg-transparent rounded-base border border-gray-300 hover:border-gray-400 duration-100 appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
+            placeholder=" "
+          />
+
+          <label
+            for="password"
+            [ngClass]="{
+              'text-[#d31130]!':
+                registerForm.get('password')?.invalid && registerForm.get('password')?.touched,
+            }"
+            class="absolute font-medium text-body duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-left bg-neutral-primary px-2 peer-focus:px-2 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto inset-s-1"
+          >
+            {{ 'register.password' | translate }}
+          </label>
+        </div>
+
+        @if (registerForm.get('password')?.invalid && registerForm.get('password')?.touched) {
+          <div class="p-1 text-[#d31130]">
+            @if (registerForm.get('password')?.hasError('required')) {
+              <p>{{ 'register.passwordRequired' | translate }}</p>
+            } @else if (registerForm.get('password')?.hasError('pattern')) {
+              <p>{{ 'register.passwordPattern' | translate }}</p>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Confirm Password -->
+      <div>
+        <div class="relative">
+          <input
+            formControlName="rePassword"
+            type="password"
+            id="cPassword"
+            [ngClass]="{
+              'border-[#d31130]! focus:border-[#d31130]!':
+                registerForm.hasError('mismatch') && registerForm.get('rePassword')?.touched,
+            }"
+            class="block px-2 py-4 w-full text-heading bg-transparent rounded-base border border-gray-300 hover:border-gray-400 duration-100 appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
+            placeholder=" "
+          />
+
+          <label
+            for="cPassword"
+            [ngClass]="{
+              'text-[#d31130]!':
+                registerForm.hasError('mismatch') && registerForm.get('rePassword')?.touched,
+            }"
+            class="absolute font-medium text-body duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-left bg-neutral-primary px-2 peer-focus:px-2 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto inset-s-1"
+          >
+            {{ 'register.confirmPassword' | translate }}
+          </label>
+        </div>
+
+        @if (registerForm.hasError('mismatch') && registerForm.get('rePassword')?.touched) {
+          <div class="p-1 text-[#d31130]">
+            @if (registerForm.get('rePassword')?.value === '') {
+              <p>{{ 'register.confirmPasswordRequired' | translate }}</p>
+            } @else {
+              <p>{{ 'register.passwordMismatch' | translate }}</p>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Submit Buttons -->
+      <div class="grid gap-3">
+        <div>
+          @if (msgError()) {
+            <p class="text-center mb-2 text-[#d31130]">
+              {{ msgError() }}
+            </p>
+          }
+
+          <button
+            type="submit"
+            [disabled]="loading()"
+            class="bg-mainLight w-full hover:bg-mainColor duration-300 disabled:cursor-not-allowed shadow px-2 py-2.5 rounded-full text-white cursor-pointer"
+          >
+            {{ 'register.submit' | translate }}
+
+            @if (loading()) {
+              <i class="fa-solid fa-spinner fa-spin"></i>
+            }
+          </button>
+        </div>
+
+        <button
+          routerLink="/login"
+          type="button"
+          class="bg-gray-100 hover:bg-gray-200 duration-300 shadow px-2 font-medium py-2.5 rounded-full text-[#28292b] cursor-pointer"
+        >
+          {{ 'register.alreadyHaveAccount' | translate }}
+        </button>
+      </div>
+    </form>
+  </div>
+</section>

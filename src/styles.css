@@ -1,3 +1,88 @@
 /* You can add global styles to this file, and also import other style files */
-
+@source "../node_modules/flowbite";
+@import 'flowbite/src/themes/default';
+@plugin "flowbite/plugin";
 @import 'tailwindcss';
+@import 'ngx-toastr/toastr';
+
+@theme {
+  --color-mainColor: #00298d;
+  --color-mainLight: #0047bb;
+
+  --color-secondColor: #f0f2f5;
+  --color-mainText: #111112;
+}
+
+@utility container {
+  margin-inline: auto;
+}
+
+body {
+  background-color: var(--color-secondColor);
+}
+@font-face {
+  font-family: SNPro;
+  src: url('/fonts/SN_Pro/static/SNPro-Regular.ttf');
+}
+*,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: SNPro;
+}
+
+/* Error toast */
+.toast-container {
+  margin-top: 16px;
+}
+.toast-error.wasl-toast {
+  width: 360px !important;
+  max-width: calc(100vw - 32px) !important;
+  min-height: 75px !important;
+
+  padding: 16px 16px 20px 55px !important;
+
+  background-color: #fff1f2 !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23dc2626' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='m15 9-6 6m0-6 6 6'/%3E%3C/svg%3E") !important;
+
+  background-position: 16px center !important;
+  background-size: 24px !important;
+  background-repeat: no-repeat !important;
+
+  border: 1px solid #fecdd3 !important;
+  border-radius: 14px !important;
+
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08) !important;
+  opacity: 1 !important;
+  font-family: inherit !important;
+}
+
+/* Title */
+.wasl-toast .toast-title {
+  color: #991b1b !important;
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  margin-bottom: 5px !important;
+}
+
+/* Message */
+.wasl-toast .toast-message {
+  color: #7f1d1d !important;
+  font-size: 16px !important;
+  line-height: 1.5 !important;
+}
+
+/* Close button */
+.wasl-toast .toast-close-button {
+  color: #991b1b !important;
+  opacity: 0.7 !important;
+  font-size: 20px !important;
+  text-shadow: none !important;
+}
+
+.wasl-toast .toast-close-button:hover {
+  opacity: 1 !important;
+}

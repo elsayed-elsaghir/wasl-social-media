@@ -1,0 +1,148 @@
+<nav class="bg-neutral-primary sticky w-full z-20 top-0 inset-s-0 border-b border-default">
+  <div class="max-w-7xl flex flex-wrap items-center justify-between mx-auto p-2">
+    <!-- Logo -->
+    <a class="flex items-center space-x-3 rtl:space-x-reverse">
+      <img src="/images/mainImage.png" class="h-8 rounded" alt="Wasl Logo" />
+      <span class="self-center text-xl text-heading font-semibold whitespace-nowrap">
+        {{ 'navbar.title' | translate }}
+      </span>
+    </a>
+
+    <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+      <!-- User Menu Button -->
+      <button
+        type="button"
+        class="flex text-sm bg-neutral-primary rounded-full md:me-0 focus:ring-4 focus:ring-neutral-tertiary"
+        id="user-menu-button"
+        aria-expanded="false"
+        data-dropdown-toggle="user-dropdown"
+        data-dropdown-placement="bottom"
+      >
+        <span class="sr-only">
+          {{ 'navbar.openUserMenu' | translate }}
+        </span>
+        <img class="w-8 h-8 rounded-full" [src]="user.photo" alt="user photo" />
+      </button>
+
+      <!-- Dropdown Menu -->
+      <div
+        class="z-50 hidden bg-neutral-primary-medium border border-default-medium rounded-base shadow-lg w-44"
+        id="user-dropdown"
+      >
+        <div class="px-4 py-3 text-sm border-b border-default">
+          <span class="block text-heading font-medium">
+            {{ 'navbar.userName' | translate }}
+          </span>
+        </div>
+
+        <ul class="p-2 text-sm text-body font-medium" aria-labelledby="user-menu-button">
+          <li>
+            <a
+              routerLink="/change"
+              routerLinkActive="bg-neutral-tertiary-medium"
+              class="inline-flex items-center w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded"
+            >
+              <i class="fa-solid fa-gear"></i>
+              {{ 'navbar.settings' | translate }}
+            </a>
+          </li>
+
+          <li>
+            <a
+              (click)="authService.logOut()"
+              class="inline-flex items-center w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded"
+            >
+              {{ 'navbar.logout' | translate }}
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button
+        data-collapse-toggle="navbar-user"
+        type="button"
+        class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-body rounded-base md:hidden hover:bg-neutral-secondary-soft hover:text-heading focus:outline-none focus:ring-2 focus:ring-neutral-tertiary"
+        aria-controls="navbar-user"
+        aria-expanded="false"
+      >
+        <span class="sr-only">
+          {{ 'navbar.openMainMenu' | translate }}
+        </span>
+
+        <svg
+          class="w-6 h-6"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-width="2"
+            d="M5 7h14M5 12h14M5 17h14"
+          />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Navigation Links -->
+    <div
+      class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
+      id="navbar-user"
+    >
+      <ul
+        class="font-medium flex flex-col p-4 md:p-1.5 mt-4 border border-default rounded-base bg-neutral-secondary-soft md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:bg-secondColor/60"
+      >
+        <li>
+          <a
+            routerLink="/timeline"
+            routerLinkActive="bg-white text-mainColor"
+            class="block py-2 px-3 text-gray-600 rounded md:p-1"
+            aria-current="page"
+          >
+            <i class="fa-regular fa-house"></i>
+            {{ 'navbar.feed' | translate }}
+          </a>
+        </li>
+
+        <li>
+          <a
+            routerLink="/profile"
+            routerLinkActive="bg-white text-mainColor"
+            class="block py-2 px-3 text-gray-600 rounded md:p-1"
+            aria-current="page"
+          >
+            <i class="fa-regular fa-user"></i>
+            {{ 'navbar.profile' | translate }}
+          </a>
+        </li>
+
+        <li>
+          <a
+            routerLink="/notification"
+            routerLinkActive="bg-white text-mainColor"
+            class="block py-2 px-3 text-gray-600 rounded md:p-1"
+            aria-current="page"
+          >
+            <i class="fa-regular fa-comment"></i>
+            {{ 'navbar.notification' | translate }}
+          </a>
+        </li>
+
+        <!-- Search -->
+        <li>
+          <input
+            (input)="searchService.searchValue.set($any($event.target).value)"
+            type="search"
+            [placeholder]="'navbar.search' | translate"
+            class="block py-2 px-3 text-gray-600 rounded md:p-1"
+          />
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

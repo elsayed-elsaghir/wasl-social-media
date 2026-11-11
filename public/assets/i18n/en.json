@@ -1,0 +1,153 @@
+{
+  "login": {
+    "title": "Get started on Wasl",
+    "description": "A place where you can connect with confidence.",
+    "email": "Email",
+    "emailRequired": "Email is required",
+    "invalidEmail": "Please enter a valid email address.",
+    "password": "Password",
+    "passwordRequired": "Please enter your password",
+    "passwordPattern": "Password must be at least 8 characters and include an uppercase letter, a lowercase letter, a number, and a special character (e.g., #, @, or !).",
+    "submit": "Log in",
+    "createAccount": "Create new account"
+  },
+  "register": {
+    "title": "Get started on Wasl",
+    "description": "A place where you can connect with confidence.",
+    "fullName": "Full Name",
+    "fullNameRequired": "Name is required",
+    "fullNameMinLength": "Name must be at least 3 characters long.",
+    "username": "User Name (optional)",
+    "email": "Email",
+    "emailRequired": "Email is required",
+    "invalidEmail": "Please enter a valid email address.",
+    "gender": "Select Gender",
+    "male": "Male",
+    "female": "Female",
+    "genderRequired": "Gender is required",
+    "dateOfBirth": "Date of birth",
+    "dateOfBirthRequired": "Date of birth is required",
+    "minimumAge": "You must be at least 12 years old to create an account.",
+    "password": "Password",
+    "passwordRequired": "Password is required.",
+    "passwordPattern": "Must contain at least 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character.",
+    "confirmPassword": "Confirm Password",
+    "confirmPasswordRequired": "Please confirm password",
+    "passwordMismatch": "Passwords do not match.",
+    "submit": "Create New Account",
+    "alreadyHaveAccount": "I already have an account"
+  },
+  "navbar": {
+    "title": "Wasl Posts",
+    "openUserMenu": "Open user menu",
+    "userName": "User Name",
+    "settings": "Settings",
+    "logout": "Log Out",
+    "openMainMenu": "Open main menu",
+    "feed": "Feed",
+    "profile": "Profile",
+    "notification": "Notification",
+    "search": "Search in Wasl"
+  },
+  "posts": {
+    "privacy": {
+      "public": "public",
+      "followers": "followers",
+      "onlyMe": "only me"
+    },
+    "create": {
+      "placeholder": "What's on your mind...?",
+      "ariaLabel": "Create a new post",
+      "photoVideo": "Photo/video",
+      "submit": "Post"
+    },
+    "actions": {
+      "edit": "Edit post",
+      "delete": "Delete post",
+      "save": "Save Post",
+      "viewDetails": "View details",
+      "like": "Like",
+      "unlike": "Unlike",
+      "comment": "Comment",
+      "share": "Share"
+    },
+    "counts": {
+      "likes": "{{count}} likes",
+      "shares": "{{count}} shares",
+      "comments": "{{count}} comments"
+    },
+    "edit": {
+      "title": "Edit post",
+      "placeholder": "What's on your mind...?",
+      "ariaLabel": "Edit post content",
+      "changePhoto": "Change photo",
+      "newImage": "New image",
+      "update": "Update post",
+      "imageAlt": "Post image preview"
+    },
+    "image": {
+      "fullSizeAlt": "Full-size image"
+    },
+    "loading": "Loading more posts...",
+    "end": "You have reached the end of the posts."
+  },
+
+  "timeAgo": {
+    "justNow": "Just now",
+    "minutes": "{{count}}m ago",
+    "hours": "{{count}}h ago",
+    "days": "{{count}}d ago",
+    "weeks": "{{count}}w ago",
+    "months": "{{count}}mo ago",
+    "years": "{{count}}y ago"
+  },
+  "comments": {
+    "title": "Comments",
+    "actions": {
+      "like": "Like ({{count}})",
+      "reply": "Reply ({{count}})"
+    },
+    "create": {
+      "placeholder": "Comment as ...",
+      "photoVideo": "Photo/video"
+    },
+    "image": {
+      "fullSizeAlt": "Full-size image"
+    }
+  },
+  "postDetails": {
+    "back": "Back",
+    "privacy": {
+      "public": "Public",
+      "followers": "Followers",
+      "onlyMe": "Only me"
+    },
+    "actions": {
+      "edit": "Edit post",
+      "delete": "Delete post",
+      "save": "Save post",
+      "like": "Like",
+      "unlike": "Unlike",
+      "comment": "Comment",
+      "share": "Share"
+    },
+    "counts": {
+      "likes": "{{count}} likes",
+      "shares": "{{count}} shares",
+      "comments": "{{count}} comments"
+    }
+  },
+  "sidebar": {
+    "ariaLabel": "Sidebar Navigation",
+    "feed": "Feed",
+    "myPosts": "My Posts",
+    "community": "Community",
+    "saved": "Saved",
+    "suggestedFriends": "Suggested Friends",
+    "searchFriends": "Search friends...",
+    "viewMore": "View more",
+    "follow": "Follow",
+    "followers": "followers",
+    "mutual": "mutual"
+  }
+}
