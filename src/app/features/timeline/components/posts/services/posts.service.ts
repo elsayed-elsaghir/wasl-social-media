@@ -14,6 +14,11 @@ export class PostsService {
       params: { page },
     });
   }
+  getMyPosts(page: number = 1): Observable<any> {
+    return this.httpClient.get(environment.baseUrl + 'posts/feed?only=following&limit=10', {
+      params: { page },
+    });
+  }
   getSinglePost(postId: string): Observable<any> {
     return this.httpClient.get(environment.baseUrl + `posts/${postId}`);
   }
@@ -34,5 +39,8 @@ export class PostsService {
   }
   getPostLikes(postId: string): Observable<any> {
     return this.httpClient.get(environment.baseUrl + `posts/${postId}/likes?page=1&limit=20`);
+  }
+  getMyProfile(): Observable<any> {
+    return this.httpClient.get(environment.baseUrl + `users/profile-data`);
   }
 }

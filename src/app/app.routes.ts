@@ -12,6 +12,9 @@ import { NotFoundComponent } from './features/not-found/not-found.component.js';
 import { authGuard } from './core/auth/guard/auth-guard.js';
 import { guestGuard } from './core/auth/guard/guest-guard.js';
 import { PostDetailsComponent } from './features/post-details/post-details.component.js';
+import { Component } from '@angular/core';
+import { PostsComponent } from './features/timeline/components/posts/posts.component.js';
+import { MyPostsComponent } from './features/home-feed/my-posts/my-posts.component.js';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -29,9 +32,18 @@ export const routes: Routes = [
     path: '',
     component: MainLayoutComponent,
     canActivate: [authGuard],
+
     children: [
       { path: 'profile', component: ProfileComponent },
-      { path: 'timeline', component: TimelineComponent },
+      {
+        path: 'timeline',
+        component: TimelineComponent,
+        children: [
+          { path: '', redirectTo: 'posts', pathMatch: 'full' },
+          { path: 'posts', component: PostsComponent },
+          { path: 'myposts', component: MyPostsComponent },
+        ],
+      },
       { path: 'notification', component: NotificationsComponent },
       { path: 'changePassword', component: ChangePasswordComponent },
       { path: 'details/:id', component: PostDetailsComponent },

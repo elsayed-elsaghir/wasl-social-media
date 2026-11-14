@@ -1,7 +1,10 @@
 <section>
   <div class="container grid md:grid-cols-[220px_minmax(0,1fr)_350px] gap-4 pt-4">
     <app-side-left />
-    <app-posts />
+    <div class="min-w-0">
+      <router-outlet />
+    </div>
+    <!-- <app-posts /> -->
     <app-side-right />
   </div>
 </section>

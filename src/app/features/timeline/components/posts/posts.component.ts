@@ -22,6 +22,7 @@ import { TimeAgoService } from './services/time-ago.service.js';
     RouterLink,
     SearchPipe,
     PostLikesComponent,
+
     TranslatePipe,
   ],
   templateUrl: './posts.component.html',
@@ -311,6 +312,15 @@ export class PostsComponent implements OnInit {
     });
   }
 
+  onPrivacyChanged(post: Post): void {
+    const formData = new FormData();
+    formData.append('privacy', post.privacy);
+
+    this.postsService.updatePost(post.id, formData).subscribe({
+      next: (res) => {},
+    });
+  }
+
   resetForm(form: HTMLFormElement): void {
     // Reset HTML form fields
     form.reset();
@@ -335,9 +345,7 @@ export class PostsComponent implements OnInit {
   }
   incrementCommentsCount(postId: string): void {
     this.allPosts.update((posts) =>
-      posts.map((p) =>
-        p.id === postId ? { ...p, commentsCount: p.commentsCount + 1 } : p
-      )
+      posts.map((p) => (p.id === postId ? { ...p, commentsCount: p.commentsCount + 1 } : p)),
     );
   }
 

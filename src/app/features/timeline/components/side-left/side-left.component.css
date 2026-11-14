@@ -1,0 +1,15 @@
+@reference "tailwindcss";
+.sidebar-link {
+  @apply flex items-center gap-4 p-2 cursor-pointer rounded-xl
+         text-slate-500 font-semibold
+         hover:bg-slate-50 hover:text-slate-700
+         transition-colors duration-200;
+}
+
+.sidebar-link i {
+  @apply transition-colors duration-200;
+}
+
+.sidebar-link.bg-blue-50 {
+  @apply text-blue-600;
+}

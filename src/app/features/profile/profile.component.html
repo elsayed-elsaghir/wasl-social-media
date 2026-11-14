@@ -1,1 +1,183 @@
-<p>profile works!</p>
+<div class="min-h-screen bg-[#f1f3f6] font-sans pb-8">
+  <!-- Profile Container -->
+  <div class="max-w-6xl mx-auto px-4 pt-4">
+    <!-- Cover Banner -->
+    <div
+      class="h-60 rounded-t-[28px] bg-gradient-to-r from-slate-900 via-blue-900 to-sky-500 relative overflow-hidden"
+    >
+      <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/10"></div>
+    </div>
+
+    <!-- Profile Card -->
+    <div
+      class="relative -mt-16 bg-white rounded-[28px] shadow-md border border-slate-100 p-6 sm:p-8"
+    >
+      <!-- User Info + Followers -->
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-6">
+        <!-- User Information -->
+        <div class="flex items-center gap-4 min-w-0">
+          <img
+            [src]="user().photo || '/images/default-user.png'"
+            [alt]="user().name"
+            class="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-4 border-white object-cover shadow-md bg-slate-100 shrink-0"
+          />
+
+          <div class="min-w-0">
+            <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-1">
+              {{ user().name }}
+            </h1>
+
+            <p class="text-slate-500 text-base mb-3">@{{ user().username }}</p>
+
+            <span
+              class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-600 text-xs font-semibold border border-blue-100"
+            >
+              <i class="fa-solid fa-users"></i>
+              wasl Posts member
+            </span>
+          </div>
+        </div>
+
+        <!-- Followers Statistics -->
+        <div class="grid grid-cols-3 gap-2 sm:gap-3 lg:w-[520px] shrink-0">
+          <div class="rounded-2xl border border-slate-200 p-3 sm:p-4 text-center">
+            <p class="text-[10px] sm:text-xs font-bold text-slate-500 uppercase mb-1">Followers</p>
+            <p class="text-2xl font-bold text-slate-900">
+              {{ followersCount() }}
+            </p>
+          </div>
+
+          <div class="rounded-2xl border border-slate-200 p-3 sm:p-4 text-center">
+            <p class="text-[10px] sm:text-xs font-bold text-slate-500 uppercase mb-1">Following</p>
+            <p class="text-2xl font-bold text-slate-900">
+              {{ followingCount() }}
+            </p>
+          </div>
+
+          <div class="rounded-2xl border border-slate-200 p-3 sm:p-4 text-center">
+            <p class="text-[10px] sm:text-xs font-bold text-slate-500 uppercase mb-1">Bookmarks</p>
+            <p class="text-2xl font-bold text-slate-900">
+              {{ bookmarksCount() }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- About + Posts Statistics -->
+      <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_390px] gap-4">
+        <!-- About -->
+        <div class="bg-slate-50 rounded-2xl border border-slate-200 p-4 min-h-40">
+          <h3 class="text-sm font-bold text-slate-800 mb-4">About</h3>
+
+          <div class="flex flex-col gap-3">
+            <div class="flex items-center gap-3 text-sm text-slate-500">
+              <i class="fa-regular fa-envelope w-4 text-slate-400"></i>
+              <span>{{ user().email || 'No email available' }}</span>
+            </div>
+
+            <div class="flex items-center gap-3 text-sm text-slate-500">
+              <i class="fa-solid fa-users w-4 text-slate-400"></i>
+              <span>Active on wasl Posts</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- My Posts + Saved Posts -->
+        <div class="flex flex-col gap-3">
+          <div class="bg-blue-50/60 border border-blue-100 rounded-2xl p-4">
+            <h3 class="text-xs font-bold text-blue-700 uppercase mb-1">My Posts</h3>
+
+            <p class="text-2xl font-bold text-slate-900">
+              {{ postsCount() }}
+            </p>
+          </div>
+
+          <div class="bg-blue-50/60 border border-blue-100 rounded-2xl p-4">
+            <h3 class="text-xs font-bold text-blue-700 uppercase mb-1">Saved Posts</h3>
+
+            <p class="text-2xl font-bold text-slate-900">
+              {{ bookmarksCount() }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Posts Section -->
+  <div class="max-w-6xl mx-auto px-4 mt-6">
+    <!-- Tabs -->
+    <div
+      class="bg-white rounded-2xl border border-slate-200 shadow-sm p-3 flex items-center justify-between"
+    >
+      <div class="flex items-center gap-1 bg-slate-100 rounded-xl p-1">
+        <button
+          (click)="setTab('myPosts')"
+          [class.bg-white]="activeTab() === 'myPosts'"
+          [class.text-blue-600]="activeTab() === 'myPosts'"
+          [class.shadow-sm]="activeTab() === 'myPosts'"
+          [class.text-slate-500]="activeTab() !== 'myPosts'"
+          class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all"
+        >
+          <i class="fa-regular fa-file-lines"></i>
+          My Posts
+        </button>
+
+        <button
+          (click)="setTab('saved')"
+          [class.bg-white]="activeTab() === 'saved'"
+          [class.text-blue-600]="activeTab() === 'saved'"
+          [class.shadow-sm]="activeTab() === 'saved'"
+          [class.text-slate-500]="activeTab() !== 'saved'"
+          class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all"
+        >
+          <i class="fa-regular fa-bookmark"></i>
+          Saved
+        </button>
+      </div>
+
+      <span class="px-3 py-1 rounded-full bg-blue-50 text-blue-600 text-xs font-bold">
+        {{ activeTab() === 'myPosts' ? allPosts().length : bookmarksCount() }}
+      </span>
+    </div>
+
+    <!-- Loading -->
+    @if (loading) {
+      <div class="bg-white rounded-2xl border border-slate-200 mt-4 py-12 text-center">
+        <i class="fa-solid fa-spinner fa-spin text-2xl text-blue-600 mb-3"></i>
+        <p class="text-sm text-slate-500">Loading posts...</p>
+      </div>
+    }
+
+    <!-- Empty State -->
+    @else if (activeTab() === 'myPosts' && allPosts().length === 0) {
+      <div class="bg-white rounded-2xl border border-slate-200 mt-4 py-14 text-center">
+        <i class="fa-regular fa-file-lines text-4xl text-slate-300 mb-4"></i>
+
+        <h3 class="text-lg font-bold text-slate-800 mb-2">No posts yet</h3>
+
+        <p class="text-sm text-slate-500">Share your first post with the Route Posts community.</p>
+      </div>
+    }
+
+    <!-- Posts -->
+    @else if (activeTab() === 'myPosts') {
+      <div class="flex flex-col gap-4 mt-4">
+        @for (post of allPosts(); track post.id) {
+          <app-my-posts />
+        }
+      </div>
+    }
+
+    <!-- Saved Posts Placeholder -->
+    @else {
+      <div class="bg-white rounded-2xl border border-slate-200 mt-4 py-14 text-center">
+        <i class="fa-regular fa-bookmark text-4xl text-slate-300 mb-4"></i>
+
+        <h3 class="text-lg font-bold text-slate-800 mb-2">Saved Posts</h3>
+
+        <p class="text-sm text-slate-500">Your saved posts will appear here.</p>
+      </div>
+    }
+  </div>
+</div>
