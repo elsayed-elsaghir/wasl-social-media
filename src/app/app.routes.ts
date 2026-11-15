@@ -35,6 +35,7 @@ export const routes: Routes = [
 
     children: [
       { path: 'profile', component: ProfileComponent },
+      { path: 'notification', component: NotificationsComponent },
       {
         path: 'timeline',
         component: TimelineComponent,

@@ -300,21 +300,17 @@ export class PostsComponent implements OnInit {
 
   updatePost(post: Post) {
     let formData = new FormData();
-    formData.append('body', post.body);
+
+    if (post.body) {
+      formData.append('body', post.body);
+    }
 
     if (this.privacy.value) {
       formData.append('privacy', this.privacy.value);
     }
-    formData.append('image', post.image);
-
-    this.postsService.updatePost(post.id, formData).subscribe({
-      next: (res) => {},
-    });
-  }
-
-  onPrivacyChanged(post: Post): void {
-    const formData = new FormData();
-    formData.append('privacy', post.privacy);
+    if (post.image) {
+      formData.append('image', post.image);
+    }
 
     this.postsService.updatePost(post.id, formData).subscribe({
       next: (res) => {},

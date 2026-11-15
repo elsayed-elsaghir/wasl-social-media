@@ -43,4 +43,16 @@ export class PostsService {
   getMyProfile(): Observable<any> {
     return this.httpClient.get(environment.baseUrl + `users/profile-data`);
   }
+  getNotifications(): Observable<any> {
+    return this.httpClient.get(environment.baseUrl + `notifications?unread=false&page=1&limit=10`);
+  }
+  getUnReadCount(): Observable<any> {
+    return this.httpClient.get(environment.baseUrl + `notifications/unread-count`);
+  }
+  markNotification(notificationId: string): Observable<any> {
+    return this.httpClient.patch(environment.baseUrl + `notifications/${notificationId}/read`, {});
+  }
+  markAllNotifications(): Observable<any> {
+    return this.httpClient.patch(environment.baseUrl + `notifications/read-all`, {});
+  }
 }

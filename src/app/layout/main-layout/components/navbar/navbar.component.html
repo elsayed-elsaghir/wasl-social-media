@@ -127,11 +127,20 @@
           <a
             routerLink="/notification"
             routerLinkActive="bg-white text-mainColor"
-            class="block py-2 px-3 text-gray-600 rounded md:p-1"
+            (click)="removeUnreadCount()"
+            class="block py-2 px-3 relative text-gray-600 rounded md:p-1"
             aria-current="page"
           >
             <i class="fa-regular fa-comment"></i>
             {{ 'navbar.notification' | translate }}
+
+            @if (unreadCount()) {
+              <span
+                class="absolute top-0 left-0 text-xs w-4 flex items-center justify-center h-4 text-white bg-red-500 rounded-full"
+              >
+                {{ unreadCount() }}
+              </span>
+            }
           </a>
         </li>
 

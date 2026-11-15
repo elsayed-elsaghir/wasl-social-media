@@ -1,1 +1,228 @@
-<p>notifications works!</p>
+<div class="min-h-screen bg-[#f0f2f5] px-4 py-6 sm:px-6">
+  <div
+    class="mx-auto max-w-[900px] overflow-hidden rounded-2xl border border-[#e4e6eb] bg-white shadow-sm"
+  >
+    <!-- Header -->
+    <div class="border-b border-[#e4e6eb] p-5 sm:p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-2xl font-bold text-[#050505]">Notifications</h1>
+
+          <p class="mt-1 text-sm text-[#65676b]">Stay updated with what's happening.</p>
+        </div>
+
+        <button
+          type="button"
+          (click)="refreshNotifications()"
+          aria-label="Refresh notifications"
+          class="flex h-10 w-10 items-center justify-center rounded-full bg-[#f0f2f5] text-[#65676b] transition hover:bg-[#e4e6eb]"
+        >
+          <i class="fa-solid fa-rotate-right"></i>
+        </button>
+      </div>
+
+      <!-- Filters -->
+      <div class="mt-5 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex gap-2">
+          <button
+            type="button"
+            (click)="setFilter('all')"
+            class="rounded-full px-4 py-2 text-sm font-semibold transition"
+            [class.bg-[#e7f3ff]]="activeFilter() === 'all'"
+            [class.text-[#1877f2]]="activeFilter() === 'all'"
+            [class.text-[#65676b]]="activeFilter() !== 'all'"
+            [class.hover:bg-[#f0f2f5]]="activeFilter() !== 'all'"
+          >
+            All
+          </button>
+
+          <button
+            type="button"
+            (click)="setFilter('unread')"
+            class="rounded-full px-4 py-2 text-sm font-semibold transition"
+            [class.bg-[#e7f3ff]]="activeFilter() === 'unread'"
+            [class.text-[#1877f2]]="activeFilter() === 'unread'"
+            [class.text-[#65676b]]="activeFilter() !== 'unread'"
+            [class.hover:bg-[#f0f2f5]]="activeFilter() !== 'unread'"
+          >
+            Unread
+
+            @if (unreadCount() > 0) {
+              <span class="ml-1">
+                {{ unreadCount() }}
+              </span>
+            }
+          </button>
+        </div>
+
+        <button
+          type="button"
+          (click)="markAllAsRead()"
+          [disabled]="unreadCount() === 0"
+          class="text-sm font-semibold text-[#1877f2] transition hover:underline disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          Mark all as read
+        </button>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="p-3 sm:p-5">
+      <!-- Loading -->
+      @if (loading()) {
+        <div class="flex flex-col items-center justify-center gap-3 py-16">
+          <div
+            class="h-9 w-9 animate-spin rounded-full border-4 border-[#e4e6eb] border-t-[#1877f2]"
+          ></div>
+
+          <p class="text-sm text-[#65676b]">Loading notifications...</p>
+        </div>
+      }
+
+      <!-- Error -->
+      @else if (notificationsError()) {
+        <div class="flex flex-col items-center justify-center py-14 text-center">
+          <i class="fa-solid fa-triangle-exclamation text-3xl text-[#f02849]"></i>
+
+          <h3 class="mt-4 font-semibold text-[#050505]">Something went wrong</h3>
+
+          <p class="mt-1 text-sm text-[#65676b]">We couldn't load your notifications.</p>
+
+          <button
+            type="button"
+            (click)="refreshNotifications()"
+            class="mt-4 rounded-lg bg-[#1877f2] px-5 py-2 text-sm font-semibold text-white hover:bg-[#166fe5]"
+          >
+            Try again
+          </button>
+        </div>
+      }
+
+      <!-- Empty -->
+      @else if (filteredNotifications().length === 0) {
+        <div class="flex flex-col items-center justify-center py-16 text-center">
+          <div class="flex h-20 w-20 items-center justify-center rounded-full bg-[#f0f2f5]">
+            <i class="fa-solid fa-bell text-3xl text-[#8a8d91]"></i>
+          </div>
+
+          <h3 class="mt-5 text-lg font-bold text-[#050505]">
+            @if (activeFilter() === 'unread') {
+              You're all caught up!
+            } @else {
+              No notifications yet
+            }
+          </h3>
+
+          <p class="mt-2 max-w-sm text-sm text-[#65676b]">
+            @if (activeFilter() === 'unread') {
+              You don't have any unread notifications right now.
+            } @else {
+              When someone interacts with your posts or follows you, you'll see it here.
+            }
+          </p>
+        </div>
+      }
+
+      <!-- Notification Groups -->
+      @else {
+        <div class="space-y-6">
+          @for (group of groupedNotifications(); track group.title) {
+            <section>
+              <h2 class="mb-3 px-2 text-base font-bold text-[#050505]">
+                {{ group.title }}
+              </h2>
+
+              <div class="space-y-1">
+                @for (notification of group.items; track notification._id) {
+                  <div
+                    role="button"
+                    (click)="markAsRead(notification._id)"
+                    class="group relative flex cursor-pointer items-start gap-3 rounded-xl p-3 transition-colors hover:bg-[#f2f4f7] sm:gap-4 sm:p-4"
+                    [class.bg-[#e7f3ff]]="!notification.isRead"
+                    [class.hover:bg-[#dcecff]]="!notification.isRead"
+                  >
+                    <!-- Actor Avatar -->
+                    <div class="relative shrink-0">
+                      <img
+                        [src]="notification.actor.photo"
+                        [alt]="notification.actor.name"
+                        class="h-12 w-12 rounded-full border border-[#e4e6eb] object-cover sm:h-14 sm:w-14"
+                      />
+
+                      <!-- Type Icon -->
+                      <div
+                        class="absolute -bottom-1 -right-1 flex h-7 w-7 items-center justify-center rounded-full border-2 border-white text-white"
+                        [class.bg-[#f5533d]]="notification.type === 'like_post'"
+                        [class.bg-[#1877f2]]="notification.type === 'comment_post'"
+                        [class.bg-[#31a24c]]="notification.type === 'follow_user'"
+                        [class.bg-[#8b5cf6]]="notification.type === 'share_post'"
+                      >
+                        @switch (notification.type) {
+                          @case ('like_post') {
+                            <i class="fa-solid fa-heart text-xs"></i>
+                          }
+
+                          @case ('comment_post') {
+                            <i class="fa-solid fa-comment text-xs"></i>
+                          }
+
+                          @case ('share_post') {
+                            <i class="fa-solid fa-share text-xs"></i>
+                          }
+
+                          @case ('follow_user') {
+                            <i class="fa-solid fa-user-plus text-xs"></i>
+                          }
+
+                          @default {
+                            <i class="fa-solid fa-bell text-xs"></i>
+                          }
+                        }
+                      </div>
+                    </div>
+
+                    <!-- Details -->
+                    <div class="min-w-0 flex-1">
+                      <p class="text-sm leading-6 text-[#050505]">
+                        <span class="font-bold">
+                          {{ notification.actor.name }}
+                        </span>
+
+                        {{ getNotificationMessage(notification) }}
+                      </p>
+
+                      <p class="mt-1 text-xs font-medium text-[#65676b]">
+                        {{ notification.createdAt | date: 'MMM d, h:mm a' }}
+                      </p>
+
+                      <!-- Entity Preview -->
+                      @if (getNotificationPreview(notification); as preview) {
+                        <div
+                          class="mt-3 rounded-lg border-l-[3px] border-[#1877f2] bg-[#f0f2f5] px-3 py-2"
+                        >
+                          <p class="line-clamp-2 text-sm text-[#65676b]">
+                            {{ preview }}
+                          </p>
+                        </div>
+                      }
+                    </div>
+
+                    <!-- Unread Indicator -->
+                    @if (!notification.isRead) {
+                      <div class="mt-3 flex shrink-0 items-center">
+                        <span
+                          class="h-3 w-3 rounded-full bg-[#1877f2]"
+                          title="Unread notification"
+                        ></span>
+                      </div>
+                    }
+                  </div>
+                }
+              </div>
+            </section>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</div>
